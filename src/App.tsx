@@ -4,6 +4,8 @@
 // import routes from '@/routes.tsx';
 // const router = createBrowserRouter(routes);
 
+import '@/styles/global.css';
+
 function App() {
   return <>하이!</>;
   // return <RouterProvider router={router} />

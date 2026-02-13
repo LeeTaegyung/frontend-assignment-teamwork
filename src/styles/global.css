@@ -32,10 +32,24 @@
 
 @theme {
   --font-pretendard: 'Pretendard', sans-serif;
+
+  --color-primary: #5189fa;
+  --color-primary-hover: #416ec8;
+  --color-primary-pressed: #3b63b5;
+  --color-primary-disabled: #f1f5f9;
+  --color-border: #e2e8f0;
 }
 
 @layer base {
+  * {
+    @apply text-inherit outline-none;
+  }
+
   body {
-    @apply font-pretendard;
+    @apply font-pretendard text-gray-900 bg-white;
+  }
+
+  button {
+    @apply cursor-pointer;
   }
 }

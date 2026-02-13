@@ -1,12 +1,14 @@
+import DrawingPage from '@/pages/DrawingPage/DrawingPage';
+import MainPage from '@/pages/MainPage/MainPage';
+
 const routes = [
   {
-    // path: '/',
-    // element: <Layout />,
-    // errorElement: <ErrorPage />,
-    // children: [
-    //   { path: '/', element: <LandingPage /> },
-    //   { path: '/mypage', element: <MyPage /> },
-    // ]
+    path: '/',
+    element: <MainPage />,
+  },
+  {
+    path: '/drawing/:id',
+    element: <DrawingPage />,
   },
 ];
 

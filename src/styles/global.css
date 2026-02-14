@@ -46,10 +46,14 @@
   }
 
   body {
-    @apply font-pretendard text-gray-900 bg-white;
+    @apply font-pretendard bg-white text-gray-900;
   }
 
   button {
     @apply cursor-pointer;
+  }
+
+  path {
+    vector-effect: non-scaling-stroke;
   }
 }

@@ -8,12 +8,14 @@ interface Props {
   discipline: [string, NormalizedDiscipline];
   selectDisciplines: SelectedDisciplineState[];
   onChange: (selectData: SelectedDisciplineState) => void;
+  onUpdateSelect: (updated: SelectedDisciplineState) => void;
 }
 
 export default function ControlItem({
   discipline,
   selectDisciplines,
   onChange,
+  onUpdateSelect,
 }: Props) {
   const [name, value] = discipline;
 
@@ -28,6 +30,16 @@ export default function ControlItem({
     selectRegion: selectDiscipline.regionId,
   });
 
+  const updateState = (newState: SelectedDisciplineState) => {
+    const isSelected = selectDisciplines.some((s) => s.disciplineId === name);
+
+    setSelectDiscipline(newState);
+
+    if (isSelected) {
+      onUpdateSelect(newState);
+    }
+  };
+
   const handleChangeRegion = (e: ChangeEvent<HTMLSelectElement>) => {
     const newRegion = e.target.value;
 
@@ -36,25 +48,25 @@ export default function ControlItem({
       selectRegion: newRegion,
     });
 
-    setSelectDiscipline((s) => ({
-      ...s,
+    updateState({
+      ...selectDiscipline,
       regionId: newRegion,
       revisionIndex: newRevisions ? newRevisions.length - 1 : 0, // revision도 최신버전으로 초기화
-    }));
+    });
   };
 
   const handleIncreaseRevision = () => {
-    setSelectDiscipline((s) => ({
-      ...s,
-      revisionIndex: s.revisionIndex + 1,
-    }));
+    updateState({
+      ...selectDiscipline,
+      revisionIndex: selectDiscipline.revisionIndex + 1,
+    });
   };
 
   const handleDecreaseRevision = () => {
-    setSelectDiscipline((s) => ({
-      ...s,
-      revisionIndex: s.revisionIndex - 1,
-    }));
+    updateState({
+      ...selectDiscipline,
+      revisionIndex: selectDiscipline.revisionIndex - 1,
+    });
   };
 
   return (
@@ -62,7 +74,7 @@ export default function ControlItem({
       <label className='mb-2 flex cursor-pointer gap-1'>
         <input
           type='checkbox'
-          checked={!!selectDisciplines.find((s) => s.disciplineId === name)}
+          checked={!!selectDisciplines.some((s) => s.disciplineId === name)}
           onChange={() => onChange(selectDiscipline)}
         />
         {name}

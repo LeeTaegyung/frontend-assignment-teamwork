@@ -71,7 +71,9 @@ export default function ControlItem({
 
   return (
     <div className='border-t-border mt-4 border-t pt-4'>
-      <label className='mb-2 flex cursor-pointer gap-1'>
+      <label
+        className={`mb-2 flex cursor-pointer gap-1 ${!!selectDisciplines.some((s) => s.disciplineId === name) && 'text-primary'}`}
+      >
         <input
           type='checkbox'
           checked={!!selectDisciplines.some((s) => s.disciplineId === name)}
@@ -82,7 +84,7 @@ export default function ControlItem({
 
       {value.type === 'region' && (
         <select
-          className='mb-2 w-full border text-center'
+          className='mb-2 w-full border text-center text-sm'
           value={selectDiscipline.regionId || ''}
           onChange={handleChangeRegion}
         >
@@ -97,7 +99,7 @@ export default function ControlItem({
       {revisions && (
         <div className='flex items-center text-center'>
           <button
-            className='bg-primary size-6 rounded-full text-white disabled:bg-gray-500'
+            className='bg-primary size-5 rounded-full text-xs text-white disabled:bg-gray-500'
             onClick={handleDecreaseRevision}
             disabled={selectDiscipline.revisionIndex === 0}
           >
@@ -107,7 +109,7 @@ export default function ControlItem({
             {revisions[selectDiscipline.revisionIndex].version}
           </span>
           <button
-            className='bg-primary size-6 rounded-full text-white disabled:bg-gray-500'
+            className='bg-primary size-5 rounded-full text-xs text-white disabled:bg-gray-500'
             onClick={handleIncreaseRevision}
             disabled={selectDiscipline.revisionIndex === revisions.length - 1}
           >

@@ -18,7 +18,9 @@ export default function Header() {
   return (
     <header className='shrink-0 grow-0'>
       <h1 className='border-b-border border-b px-3 py-2 text-lg font-bold'>
-        {project.name} - {drawingMap[id ?? '00'].name}
+        <Link to='/'>
+          {project.name} - {drawingMap[id ?? '00'].name}
+        </Link>
       </h1>
       <button
         className='fixed bottom-5 left-5'

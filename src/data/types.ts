@@ -9,7 +9,7 @@ export interface OriginDataType {
   };
 }
 
-interface DrawingItemType {
+export interface DrawingItemType {
   id: string;
   name: string;
   image: string;
@@ -20,7 +20,7 @@ interface DrawingItemType {
   };
 }
 
-export interface PositionType {
+interface PositionType {
   vertices: VerticesType;
   imageTransform: ImageTransformType;
 }

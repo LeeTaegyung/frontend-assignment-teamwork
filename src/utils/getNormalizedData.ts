@@ -1,24 +1,18 @@
 import originData from '@/data/metadata.json';
 import type {
   DisciplinesItemType,
+  DrawingItemType,
   ImageTransformType,
   OriginDataType,
   PolygonType,
-  PositionType,
   RegionsType,
   RevisionsType,
 } from '@/data/types';
 
-interface DrawingItemType {
-  id: string;
-  name: string;
-  image: string;
-  parent: string | null;
-  position: PositionType | null;
-}
+type DrawingMapItemType = Omit<DrawingItemType, 'disciplines'>;
 
 interface DrawingMapType {
-  [key: string]: DrawingItemType;
+  [key: string]: DrawingMapItemType;
 }
 
 type DisciplineType = 'base' | 'region' | 'revisionOnly';
@@ -72,33 +66,10 @@ export default function getNormalizedData() {
 
     if ('disciplines' in rest) {
       disciplineMap[drawingId] = {};
-      Object.entries(rest.disciplines!).forEach(([name, value]) => {
-        const type = getDisciplineType(value);
-
-        switch (type) {
-          case 'region':
-            disciplineMap[drawingId][name] = {
-              type: 'region',
-              imageTransform: value.imageTransform,
-              polygon: value.polygon,
-              regions: value.regions!,
-            };
-            break;
-          case 'revisionOnly':
-            disciplineMap[drawingId][name] = {
-              type: 'revisionOnly',
-              revisions: value.revisions!,
-            };
-            break;
-          case 'base':
-            disciplineMap[drawingId][name] = {
-              type: 'base',
-              imageTransform: value.imageTransform,
-              polygon: value.polygon,
-              revisions: value.revisions!,
-            };
-            break;
-        }
+      Object.entries(rest.disciplines!).forEach(([name, data]) => {
+        disciplineMap[drawingId][name] = {
+          ...getDisciplineData(data),
+        };
       });
     }
   });
@@ -113,4 +84,29 @@ function getDisciplineType(data: DisciplinesItemType): DisciplineType {
     return 'revisionOnly';
 
   return 'base';
+}
+
+function getDisciplineData(data: DisciplinesItemType): NormalizedDiscipline {
+  const type = getDisciplineType(data);
+  switch (type) {
+    case 'region':
+      return {
+        type: 'region',
+        imageTransform: data.imageTransform,
+        polygon: data.polygon,
+        regions: data.regions!,
+      };
+    case 'revisionOnly':
+      return {
+        type: 'revisionOnly',
+        revisions: data.revisions!,
+      };
+    case 'base':
+      return {
+        type: 'base',
+        imageTransform: data.imageTransform,
+        polygon: data.polygon,
+        revisions: data.revisions!,
+      };
+  }
 }

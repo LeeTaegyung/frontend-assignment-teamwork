@@ -1,6 +1,66 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+
+import ControlItem from '@/components/ControlItem/ControlItem';
+import getNormalizedData from '@/utils/getNormalizedData';
+
+export interface SelectedDisciplineState {
+  disciplineId: string;
+  regionId: null | string;
+  revisionIndex: number;
+}
+
+const SELECT_MAX_COUNT = 2;
 
 export default function DrawingPage() {
   const { id } = useParams();
-  return <div>도면 페이지 {id}</div>;
+  const drawingId = id!;
+  const { drawingMap, disciplineMap } = getNormalizedData();
+
+  const currentDrawing = drawingMap[drawingId];
+  const currentDisciplines = disciplineMap[drawingId];
+
+  const [selectDisciplines, setSelectDisciplines] = useState<
+    SelectedDisciplineState[]
+  >([]);
+
+  const handleChangeDiscipline = (selectData: SelectedDisciplineState) => {
+    setSelectDisciplines((prevSelectDisciplines) => {
+      const hasSelectData = prevSelectDisciplines.find(
+        (s) => s.disciplineId === selectData.disciplineId
+      );
+
+      if (!hasSelectData && prevSelectDisciplines.length < SELECT_MAX_COUNT) {
+        return [...prevSelectDisciplines, selectData];
+      } else {
+        return prevSelectDisciplines.filter(
+          (s) => s.disciplineId !== selectData.disciplineId
+        );
+      }
+    });
+  };
+
+  return (
+    <div className='flex h-full'>
+      {/* 도면 영역 */}
+      <div className='flex-1'></div>
+
+      {/* 컨트롤박스 */}
+      <div className='border-l-border flex shrink-0 basis-2xs flex-col border-l px-3 py-5'>
+        <div className='mt-auto flex flex-col'>
+          {Object.entries(currentDisciplines).map((discipline) => {
+            return (
+              <ControlItem
+                discipline={discipline}
+                key={discipline[0]}
+                selectDisciplines={selectDisciplines}
+                onChange={handleChangeDiscipline}
+              />
+            );
+          })}
+          <p className='mt-3 text-red-500'>※ 최대 2개까지만 선택 가능합니다.</p>
+        </div>
+      </div>
+    </div>
+  );
 }

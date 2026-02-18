@@ -9,7 +9,7 @@ import type {
   RevisionsType,
 } from '@/data/types';
 
-type DrawingMapItemType = Omit<DrawingItemType, 'disciplines'>;
+export type DrawingMapItemType = Omit<DrawingItemType, 'disciplines'>;
 
 interface DrawingMapType {
   [key: string]: DrawingMapItemType;

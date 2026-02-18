@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ControlItem from '@/components/ControlItem/ControlItem';
+import DrawingCanvas from '@/components/DrawingCanvas/DrawingCanvas';
 import getNormalizedData from '@/utils/getNormalizedData';
 
 export interface SelectedDisciplineState {
@@ -24,9 +25,9 @@ export default function DrawingPage() {
     SelectedDisciplineState[]
   >([]);
 
-  const handleChangeDiscipline = (selectData: SelectedDisciplineState) => {
+  const handleAddDiscipline = (selectData: SelectedDisciplineState) => {
     setSelectDisciplines((prevSelectDisciplines) => {
-      const hasSelectData = prevSelectDisciplines.find(
+      const hasSelectData = prevSelectDisciplines.some(
         (s) => s.disciplineId === selectData.disciplineId
       );
 
@@ -40,13 +41,25 @@ export default function DrawingPage() {
     });
   };
 
+  const handleUpdateSelecteDiscipline = (updated: SelectedDisciplineState) => {
+    setSelectDisciplines((prev) =>
+      prev.map((s) => (s.disciplineId === updated.disciplineId ? updated : s))
+    );
+  };
+
   return (
     <div className='flex h-full'>
       {/* 도면 영역 */}
-      <div className='flex-1'></div>
+      <div className='flex-1'>
+        <DrawingCanvas
+          drawing={currentDrawing}
+          selectDisciplines={selectDisciplines}
+          disciplines={currentDisciplines}
+        />
+      </div>
 
-      {/* 컨트롤박스 */}
       <div className='border-l-border flex shrink-0 basis-2xs flex-col border-l px-3 py-5'>
+        {/* 컨트롤박스 */}
         <div className='mt-auto flex flex-col'>
           {Object.entries(currentDisciplines).map((discipline) => {
             return (
@@ -54,7 +67,8 @@ export default function DrawingPage() {
                 discipline={discipline}
                 key={discipline[0]}
                 selectDisciplines={selectDisciplines}
-                onChange={handleChangeDiscipline}
+                onChange={handleAddDiscipline}
+                onUpdateSelect={handleUpdateSelecteDiscipline}
               />
             );
           })}

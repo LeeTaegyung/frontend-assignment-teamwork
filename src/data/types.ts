@@ -35,7 +35,7 @@ export interface DisciplinesItemType {
   revisions?: RevisionsType[];
 }
 
-type VerticesType = number[][];
+export type VerticesType = number[][];
 
 export interface ImageTransformType {
   relativeTo?: string;

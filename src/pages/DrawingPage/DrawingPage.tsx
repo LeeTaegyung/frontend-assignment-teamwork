@@ -35,8 +35,6 @@ export default function DrawingPage() {
     SelectedDisciplineState[]
   >([]);
 
-  console.log(selectDisciplines);
-
   const handleChangeDiscipline = (selectData: SelectedDisciplineState) => {
     setSelectDisciplines((prevSelectDisciplines) => {
       const hasSelectData = prevSelectDisciplines.some(

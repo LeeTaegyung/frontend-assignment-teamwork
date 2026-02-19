@@ -63,7 +63,6 @@ export default function DrawingPage() {
         <DrawingCanvas
           drawing={currentDrawing}
           selectDisciplines={selectDisciplines}
-          disciplines={currentDisciplines}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ControlItem from '@/components/ControlItem/ControlItem';
@@ -23,7 +23,9 @@ const SELECT_MAX_COUNT = 2;
 export default function DrawingPage() {
   const { id } = useParams();
   const drawingId = id!;
-  const { drawingMap, disciplineMap } = getNormalizedData();
+  const { drawingMap, disciplineMap } = useMemo(() => {
+    return getNormalizedData();
+  }, []);
 
   const currentDrawing = drawingMap[drawingId];
   const currentDisciplines = disciplineMap[drawingId];

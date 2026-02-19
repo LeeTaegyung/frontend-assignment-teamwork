@@ -43,16 +43,19 @@ export default function Header() {
                 닫기
               </button>
               <ul className='p-10'>
-                {drawings.map((data) => (
-                  <li key={data.id} className='border-b-border border-b'>
-                    <Link
-                      to={`/drawing/${data.id}`}
-                      className={`block py-5 ${id === data.id && 'text-primary'}`}
-                    >
-                      {data.name}
-                    </Link>
-                  </li>
-                ))}
+                {drawings.map((data) => {
+                  if (data.id === '00') return null;
+                  return (
+                    <li key={data.id} className='border-b-border border-b'>
+                      <Link
+                        to={`/drawing/${data.id}`}
+                        className={`block py-5 ${id === data.id && 'text-primary'}`}
+                      >
+                        {data.name}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>,

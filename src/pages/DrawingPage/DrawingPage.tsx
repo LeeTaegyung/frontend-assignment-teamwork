@@ -58,7 +58,7 @@ export default function DrawingPage() {
   };
 
   return (
-    <div className='flex h-full'>
+    <div className='flex h-full' key={id}>
       {/* 도면 영역 */}
       <div className='flex-1'>
         <DrawingCanvas
@@ -78,7 +78,7 @@ export default function DrawingPage() {
             ([disciplineKey, disciplineValue]) => {
               return (
                 <ControlItem
-                  key={disciplineKey}
+                  key={`${disciplineKey}`}
                   disciplineName={disciplineKey}
                   disciplineValue={disciplineValue}
                   selectDisciplines={selectDisciplines}
